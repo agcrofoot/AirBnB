@@ -81,34 +81,29 @@ namespace MIS221_Starter_Code
             Listing newListing = new Listing();
 
             //Prompts new listing ID
-            Console.WriteLine("Enter the listing ID.");
+            Console.WriteLine("Enter the listing ID (A, B, C, etc.).");
             string listingID = Console.ReadLine();
             newListing.SetID(listingID);
 
-            //Prompts new street number
-            Console.WriteLine("Enter the street number.");
-            int addressNum = int.Parse(Console.ReadLine());
-            newListing.SetNum(addressNum);
-
-            //Prompts new street name
-            Console.WriteLine("Enter the street name.");
+            //Prompts new street address
+            Console.WriteLine("Enter the address (ex. 123 Example St. (optional: Apt/Suite 13).");
             string addressStreet = Console.ReadLine();
-            newListing.SetStreet(addressStreet);
+            newListing.SetAddress(addressStreet);
 
-            //Prompts new end month
-            Console.WriteLine("Enter the listing end month.");
-            string endMonth = Console.ReadLine();
-            newListing.SetMonth(endMonth);
+            //Prompts new city
+            Console.WriteLine("Enter the address city.");
+            string addressCity = Console.ReadLine();
+            newListing.SetCity(addressCity);
+
+            //Prompts new state
+            Console.WriteLine("Enter the address state.");
+            string addressState = Console.ReadLine();
+            newListing.SetState(addressState);
 
             //Prompts new end day
-            Console.WriteLine("Enter the listing end date.");
-            int endDate = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the listing end date (mm/dd/yyyy).");
+            string endDate = Console.ReadLine();
             newListing.SetDate(endDate);
-
-            //Prompts new end year
-            Console.WriteLine("Enter the listing end year.");
-            int endYear = int.Parse(Console.ReadLine());
-            newListing.SetYear(endYear);
 
             //Prompts new listing price
             Console.WriteLine("Enter the listing price.");
@@ -147,34 +142,37 @@ namespace MIS221_Starter_Code
                 menuChoice = EditCheck(menuChoice);
                 if(menuChoice == 1)
                 {
+                    Console.WriteLine("Enter new ID.");
                     myListing[foundIndex].SetID(Console.ReadLine());
                 }
                 else if(menuChoice == 2)
                 {
-                    myListing[foundIndex].SetNum(int.Parse(Console.ReadLine()));
+                    Console.WriteLine("Enter new address.");
+                    myListing[foundIndex].SetAddress(Console.ReadLine());
                 }
                 else if(menuChoice == 3)
                 {
-                    myListing[foundIndex].SetStreet(Console.ReadLine());
+                    Console.WriteLine("Enter new city.");
+                    myListing[foundIndex].SetCity(Console.ReadLine());
                 }
                 else if(menuChoice == 4)
                 {
-                    myListing[foundIndex].SetMonth(Console.ReadLine());
+                    Console.WriteLine("Enter new state.");
+                    myListing[foundIndex].SetState(Console.ReadLine());
                 }
                 else if(menuChoice == 5)
                 {
-                    myListing[foundIndex].SetDate(int.Parse(Console.ReadLine()));
+                    Console.WriteLine("Enter new date (mm/dd/yyyy).");
+                    myListing[foundIndex].SetDate(Console.ReadLine());
                 }
                 else if(menuChoice == 6)
                 {
-                    myListing[foundIndex].SetYear(int.Parse(Console.ReadLine()));
+                    Console.WriteLine("Enter new price.");
+                    myListing[foundIndex].SetPrice(double.Parse(Console.ReadLine()));
                 }
                 else if(menuChoice == 7)
                 {
-                    myListing[foundIndex].SetPrice(double.Parse(Console.ReadLine()));
-                }
-                else if(menuChoice == 8)
-                {
+                    Console.WriteLine("Enter new email.");
                     myListing[foundIndex].SetEmail(Console.ReadLine());
                 }
                 else
@@ -191,7 +189,17 @@ namespace MIS221_Starter_Code
 
         public static void DeleteListing()
         {
+            Console.Clear();
+            Listing[] myListing = ListingFile.GetListings();
+            Listing.SortListing(myListing);
+            ListingFile.PrintListing(myListing);
+            Console.WriteLine("Enter the ID of the listing you would like to delete.");
+            string searchValue = Console.ReadLine();
+            int foundIndex = Listing.BinarySearch(myListing, searchValue);
+            if(foundIndex != -1)
+            {
 
+            }
         }
 
         public static void LeaseCondo()
@@ -207,20 +215,19 @@ namespace MIS221_Starter_Code
         public static int EditMenu()
         {
             Console.WriteLine("Enter '1' to edit listing ID.");
-            Console.WriteLine("Enter '2' to edit street addess number.");
-            Console.WriteLine("Enter '3' to edit street address name.");
-            Console.WriteLine("Enter '4' to edit listing end month.");
+            Console.WriteLine("Enter '2' to edit street addess.");
+            Console.WriteLine("Enter '3' to edit city.");
+            Console.WriteLine("Enter '4' to edit state.");
             Console.WriteLine("Enter '5' to edit listing end date.");
-            Console.WriteLine("Enter '6' to edit listing end year.");
-            Console.WriteLine("Enter '7' to edit listing price.");
-            Console.WriteLine("Enter '8' to edit listing owner email.");
+            Console.WriteLine("Enter '6' to edit listing price.");
+            Console.WriteLine("Enter '7' to edit listing owner email.");
 
             return int.Parse(Console.ReadLine());
         }
 
         public static int EditCheck(int menuChoice)
         {
-            if (menuChoice < 1 || menuChoice > 8)
+            if (menuChoice < 1 || menuChoice > 7)
             {
                 ErrorMessage();
                 int newChoice = int.Parse(Console.ReadLine());

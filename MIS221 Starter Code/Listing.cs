@@ -10,11 +10,10 @@ namespace MIS221_Starter_Code
     class Listing
     {
         private string listingID;
-        private int addressNum;
-        private string addressStreet;
-        private string endMonth;
-        private int endDate;
-        private int endYear;
+        private string listAddress;
+        private string listCity;
+        private string listState;
+        private string endDate;
         private double listPrice;
         private string ownerEmail;
         private static int count;
@@ -26,15 +25,13 @@ namespace MIS221_Starter_Code
         }
 
         //Method constuctor
-        public Listing(string listingID, int addressNum, string addressStreet, string endMonth, int endDate,
-            int endYear, double listPrice, string ownerEmail)
+        public Listing(string listingID, string listAddress, string listCity, string listState, string endDate, double listPrice, string ownerEmail)
         {
             this.listingID = listingID;
-            this.addressNum = addressNum;
-            this.addressStreet = addressStreet;
-            this.endMonth = endMonth;
+            this.listAddress = listAddress;
+            this.listCity = listCity;
+            this.listState = listState;
             this.endDate = endDate;
-            this.endYear = endYear;
             this.listPrice = listPrice;
             this.ownerEmail = ownerEmail;
         }
@@ -45,34 +42,27 @@ namespace MIS221_Starter_Code
             return listingID;
         }
 
-        //Gets address number
-        public int GetNumber()
+        //Gets street address
+        public string GetAddress()
         {
-            return this.addressNum;
+            return this.listAddress;
         }
 
-        //Gets address street
-        public string GetStreet()
+        //Gets city
+        public string GetCity()
         {
-            return this.addressStreet;
+            return this.listCity;
         }
 
-        //Gets listing end month
-        public string GetMonth()
+        //Gets state
+        public string GetState()
         {
-            return this.endMonth;
+            return this.listState;
         }
-
         //Gets listing end day
-        public int GetDate()
+        public string GetDate()
         {
             return this.endDate;
-        }
-
-        //Gets listing end year
-        public int GetYear()
-        {
-            return this.endYear;
         }
 
         //Gets list price
@@ -100,33 +90,27 @@ namespace MIS221_Starter_Code
         }
 
         //Sets street number
-        public void SetNum(int addressNum)
+        public void SetAddress(string listAddress)
         {
-            this.addressNum = addressNum;
+            this.listAddress = listAddress;
         }
 
-        //Sets street name
-        public void SetStreet(string addressStreet)
+        //Sets list city
+        public void SetCity(string listCity)
         {
-            this.addressStreet = addressStreet;
+            this.listCity = listCity;
         }
 
-        //Sets listing end month
-        public void SetMonth(string endMonth)
+        //Sets list state
+        public void SetState(string listState)
         {
-            this.endMonth = endMonth;
+            this.listState = listState;
         }
 
         //Sets listing end date
-        public void SetDate(int endDate)
+        public void SetDate(string endDate)
         {
             this.endDate = endDate;
-        }
-
-        //Sets listing end year
-        public void SetYear(int endYear)
-        {
-            this.endYear = endYear;
         }
 
         //Sets list price
@@ -156,8 +140,8 @@ namespace MIS221_Starter_Code
         //Converts to string
         public string ToString()
         {
-            return "The ID is " + listingID + " at " + addressNum + " " + addressStreet + ". The end date is "
-                + endMonth + " " + endDate + ", " + endYear + ". It is priced at " + listPrice + " and the owner's email is " + ownerEmail + ".";
+            return "The ID is " + listingID + " at " + listAddress + " " + listCity + ", " + listState + ". The end date is "
+                + endDate + ". It is priced at " + string.Format("{0:0.00}", listPrice) + " and the owner's email is " + ownerEmail + ".";
         }
 
         public static void SortListing(Listing[] myListing)

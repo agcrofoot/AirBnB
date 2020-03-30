@@ -21,7 +21,7 @@ namespace MIS221_Starter_Code
             {
                 string[] tempArray = listing.Split('#');
 
-                myListing[Listing.GetCount()] = new Listing(tempArray[0], int.Parse(tempArray[1]), tempArray[2], tempArray[3], int.Parse(tempArray[4]), int.Parse(tempArray[5]), double.Parse(tempArray[6]), tempArray[7]);
+                myListing[Listing.GetCount()] = new Listing(tempArray[0], tempArray[1], tempArray[2], tempArray[3], tempArray[4], double.Parse(tempArray[5]), tempArray[6]);
 
                 Listing.IntCount();
                 listing = inFile.ReadLine();
@@ -42,9 +42,8 @@ namespace MIS221_Starter_Code
         public static void SaveListing(Listing newListing)
         {
             StreamWriter outFile = File.AppendText(@"C:\Text\listings.txt");
-            outFile.WriteLine(newListing.GetID() + '#' + newListing.GetNumber() + '#' + 
-                newListing.GetStreet() + '#' + newListing.GetMonth() + '#' + newListing.GetDate() + 
-                '#' + newListing.GetYear() + '#' + newListing.GetPrice() + '#' + newListing.GetEmail());
+            outFile.WriteLine(newListing.GetID() + '#' + newListing.GetAddress() + '#' + newListing.GetCity() + '#' +
+                newListing.GetState() + '#' + newListing.GetDate() + '#' + newListing.GetPrice() + '#' + newListing.GetEmail());
             outFile.Close();
         }
 
@@ -53,9 +52,8 @@ namespace MIS221_Starter_Code
             StreamWriter outFile = new StreamWriter(@"C:\Text\listings.txt");
             for(int i = 0; i < Listing.GetCount(); i++)
             {
-                outFile.WriteLine(myListing[i].GetID() + '#' + myListing[i].GetNumber() + '#' +
-                myListing[i].GetStreet() + '#' + myListing[i].GetMonth() + '#' + myListing[i].GetDate() +
-                '#' + myListing[i].GetYear() + '#' + myListing[i].GetPrice() + '#' + myListing[i].GetEmail());
+                outFile.WriteLine(myListing[i].GetID() + '#' + myListing[i].GetAddress() + '#' + myListing[i].GetCity() + '#' + 
+                    myListing[i].GetState() + '#' + myListing[i].GetDate() + '#' + string.Format("{0:0.00}", myListing[i].GetPrice()) + '#' + myListing[i].GetEmail());
             }
             outFile.Close();
         }
