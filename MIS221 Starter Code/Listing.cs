@@ -137,11 +137,16 @@ namespace MIS221_Starter_Code
             count++;
         }
 
+        public static void DownCount()
+        {
+            count--;
+        }
+
         //Converts to string
         public string ToString()
         {
             return "The ID is " + listingID + " at " + listAddress + " " + listCity + ", " + listState + ". The end date is "
-                + endDate + ". It is priced at " + string.Format("{0:0.00}", listPrice) + " and the owner's email is " + ownerEmail + ".";
+                + endDate + ". It is priced at " + string.Format("{0:C}", listPrice) + " and the owner's email is " + ownerEmail + ".";
         }
 
         public static void SortListing(Listing[] myListing)
