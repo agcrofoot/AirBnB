@@ -160,60 +160,57 @@ namespace MIS221_Starter_Code
             {
                 Console.WriteLine("Enter the ID of the listing to edit.");
                 string searchValue = Console.ReadLine();
-                int foundIndex = Listing.BinarySearch(myListing, searchValue);
-                if (foundIndex != -1)
+                int foundIndex = Search(myListing, searchValue);
+                int menuChoice = EditMenu();
+                menuChoice = EditCheck(menuChoice);
+                if (menuChoice == 1)
                 {
-                    int menuChoice = EditMenu();
-                    menuChoice = EditCheck(menuChoice);
-                    if (menuChoice == 1)
-                    {
-                        Console.WriteLine("Enter new ID.");
-                        string listingID = Console.ReadLine();
-                        listingID = CheckID(listingID);
-                        myListing[foundIndex].SetID(listingID);
-                    }
-                    else if (menuChoice == 2)
-                    {
-                        Console.WriteLine("Enter new address.");
-                        string addressStreet = Console.ReadLine();
-                        addressStreet = CheckAddress(addressStreet);
-                        myListing[foundIndex].SetAddress(addressStreet);
-                    }
-                    else if (menuChoice == 3)
-                    {
-                        Console.WriteLine("Enter new city.");
-                        string addressCity = Console.ReadLine();
-                        addressCity = CheckAddress(addressCity);
-                        myListing[foundIndex].SetCity(addressCity);
-                    }
-                    else if (menuChoice == 4)
-                    {
-                        Console.WriteLine("Enter new state.");
-                        string addressState = Console.ReadLine().ToUpper();
-                        addressState = CheckState(addressState);
-                        myListing[foundIndex].SetState(addressState);
-                    }
-                    else if (menuChoice == 5)
-                    {
-                        Console.WriteLine("Enter new date (mm/dd/yyyy).");
-                        string endDate = Console.ReadLine();
-                        endDate = CheckDate(endDate);
-                        myListing[foundIndex].SetDate(endDate);
-                    }
-                    else if (menuChoice == 6)
-                    {
-                        Console.WriteLine("Enter new price.");
-                        double listPrice = double.Parse(Console.ReadLine());
-                        listPrice = CheckPrice(listPrice);
-                        myListing[foundIndex].SetPrice(listPrice);
-                    }
-                    else if (menuChoice == 7)
-                    {
-                        Console.WriteLine("Enter new email.");
-                        string ownerEmail = Console.ReadLine();
-                        ownerEmail = CheckEmail(ownerEmail);
-                        myListing[foundIndex].SetEmail(ownerEmail);
-                    }
+                    Console.WriteLine("Enter new ID.");
+                    string listingID = Console.ReadLine();
+                    listingID = CheckID(listingID);
+                    myListing[foundIndex].SetID(listingID);
+                }
+                else if (menuChoice == 2)
+                {
+                    Console.WriteLine("Enter new address.");
+                    string addressStreet = Console.ReadLine();
+                    addressStreet = CheckAddress(addressStreet);
+                    myListing[foundIndex].SetAddress(addressStreet);
+                }
+                else if (menuChoice == 3)
+                {
+                    Console.WriteLine("Enter new city.");
+                    string addressCity = Console.ReadLine();
+                    addressCity = CheckAddress(addressCity);
+                    myListing[foundIndex].SetCity(addressCity);
+                }
+                else if (menuChoice == 4)
+                {
+                    Console.WriteLine("Enter new state.");
+                    string addressState = Console.ReadLine().ToUpper();
+                    addressState = CheckState(addressState);
+                    myListing[foundIndex].SetState(addressState);
+                }
+                else if (menuChoice == 5)
+                {
+                    Console.WriteLine("Enter new date (mm/dd/yyyy).");
+                    string endDate = Console.ReadLine();
+                    endDate = CheckDate(endDate);
+                    myListing[foundIndex].SetDate(endDate);
+                }
+                else if (menuChoice == 6)
+                {
+                    Console.WriteLine("Enter new price.");
+                    double listPrice = double.Parse(Console.ReadLine());
+                    listPrice = CheckPrice(listPrice);
+                    myListing[foundIndex].SetPrice(listPrice);
+                }
+                else if (menuChoice == 7)
+                {
+                    Console.WriteLine("Enter new email.");
+                    string ownerEmail = Console.ReadLine();
+                    ownerEmail = CheckEmail(ownerEmail);
+                    myListing[foundIndex].SetEmail(ownerEmail);
                 }
                 ListingFile.PrintListing(myListing);
                 ListingFile.SaveEditedListing(myListing);
@@ -241,22 +238,18 @@ namespace MIS221_Starter_Code
             {
                 Console.WriteLine("Enter the ID of the listing to delete.");
                 string searchValue = Console.ReadLine();
-                int foundIndex = Listing.BinarySearch(myListing, searchValue);
-                if (foundIndex != -1)
-                {
-                    Listing delListing = myListing[foundIndex];
-                    ListingFile.SaveDeletedListing(delListing);
-
-                    Console.ReadKey();
-                    DeleteListing();
-                }
+                int foundIndex = Search(myListing, searchValue);
+                Array.Clear(myListing, foundIndex, 6);
+                Listing.DownCount();
+                ListingFile.SaveEditedListing(myListing);
+                ListingFile.PrintListing(myListing);
+                Console.ReadKey();
+                DeleteListing();
             }
             else
             {
                 Menu();
             }
-
-
         }
 
         public static void LeaseCondo()
@@ -345,18 +338,7 @@ namespace MIS221_Starter_Code
             }
             else
             {
-                char[] idChar = listingID.ToArray();
-                if(Char.IsDigit(idChar[0]))
-                {
-                    return listingID;
-                }
-                else
-                {
-                    ErrorMessage();
-                    string input1 = Console.ReadLine();
-                    string input2 = CheckID(input1);
-                    return input2;
-                }
+                return listingID;
             }
         }
 
@@ -477,6 +459,22 @@ namespace MIS221_Starter_Code
                 }
             }
 
+        }
+
+        public static int Search(Listing[] myListing, string searchValue)
+        {
+            int foundIndex = Listing.BinarySearch(myListing, searchValue);
+            if(foundIndex != -1)
+            {
+                return foundIndex;
+            }
+            else
+            {
+                ErrorMessage();
+                string input1 = Console.ReadLine();
+                int input2 = Search(myListing, input1);
+                return input2;
+            }
         }
 
         public static void ErrorMessage()
