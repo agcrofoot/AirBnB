@@ -58,18 +58,5 @@ namespace MIS221_Starter_Code
             }
             outFile.Close();
         }
-
-        public static void SaveDeletedListing(Listing delListing)
-        {
-            StreamWriter outFile = new StreamWriter(@"C:\Text\listings.txt");
-
-            for (int i = 0; i < Listing.GetCount(); i++)
-            {
-                outFile.WriteLine(delListing.GetID() + delListing.GetAddress() + delListing.GetCity() +
-                    delListing.GetState() + delListing.GetDate() + delListing.GetPrice() + delListing.GetEmail());
-            }
-            outFile.Close();
-        }
-
     }
 }
