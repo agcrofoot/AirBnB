@@ -50,10 +50,23 @@ namespace MIS221_Starter_Code
         public static void SaveEditedListing(Listing[] myListing)
         {
             StreamWriter outFile = new StreamWriter(@"C:\Text\listings.txt");
-            for(int i = 0; i < Listing.GetCount(); i++)
+
+            for (int i = 0; i < Listing.GetCount(); i++)
             {
-                outFile.WriteLine(myListing[i].GetID() + '#' + myListing[i].GetAddress() + '#' + myListing[i].GetCity() + '#' + 
+                outFile.WriteLine(myListing[i].GetID() + '#' + myListing[i].GetAddress() + '#' + myListing[i].GetCity() + '#' +
                     myListing[i].GetState() + '#' + myListing[i].GetDate() + '#' + string.Format("{0:0.00}", myListing[i].GetPrice()) + '#' + myListing[i].GetEmail());
+            }
+            outFile.Close();
+        }
+
+        public static void SaveDeletedListing(Listing delListing)
+        {
+            StreamWriter outFile = new StreamWriter(@"C:\Text\listings.txt");
+
+            for (int i = 0; i < Listing.GetCount(); i++)
+            {
+                outFile.WriteLine(delListing.GetID() + delListing.GetAddress() + delListing.GetCity() +
+                    delListing.GetState() + delListing.GetDate() + delListing.GetPrice() + delListing.GetEmail());
             }
             outFile.Close();
         }

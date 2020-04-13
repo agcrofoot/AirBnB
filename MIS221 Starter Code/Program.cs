@@ -244,7 +244,11 @@ namespace MIS221_Starter_Code
                 int foundIndex = Listing.BinarySearch(myListing, searchValue);
                 if (foundIndex != -1)
                 {
+                    Listing delListing = myListing[foundIndex];
+                    ListingFile.SaveDeletedListing(delListing);
 
+                    Console.ReadKey();
+                    DeleteListing();
                 }
             }
             else
