@@ -93,48 +93,56 @@ namespace MIS221_Starter_Code
             Listing newListing = new Listing();
 
             //Prompts new listing ID
+            Console.Clear();
             Console.WriteLine("Enter the listing ID.");
             string listingID = Console.ReadLine();
-            listingID = CheckID(listingID);
+            listingID = CheckInput(listingID);
             newListing.SetID(listingID);
 
             //Prompts new street address
+            Console.Clear();
             Console.WriteLine("Enter the address (ex. 123 Example St. (optional: Apt/Suite 13).");
             string addressStreet = Console.ReadLine();
-            addressStreet = CheckAddress(addressStreet);
+            addressStreet = CheckInput(addressStreet);
             newListing.SetAddress(addressStreet);
 
             //Prompts new city
+            Console.Clear();
             Console.WriteLine("Enter the address city.");
             string addressCity = Console.ReadLine();
-            addressCity = CheckAddress(addressCity);
+            addressCity = CheckInput(addressCity);
             newListing.SetCity(addressCity);
 
             //Prompts new state
+            Console.Clear();
             Console.WriteLine("Enter the address state abbriviation.");
             string addressState = Console.ReadLine().ToUpper();
             addressState = CheckState(addressState);
             newListing.SetState(addressState);
 
             //Prompts new end day
+            Console.Clear();
             Console.WriteLine("Enter the listing end date (mm/dd/yyyy).");
             string endDate = Console.ReadLine();
             endDate = CheckDate(endDate);
             newListing.SetDate(endDate);
 
             //Prompts new listing price
+            Console.Clear();
             Console.WriteLine("Enter the listing price.");
             double listPrice = double.Parse(Console.ReadLine());
             listPrice = CheckPrice(listPrice);
             newListing.SetPrice(listPrice);
 
             //Prompt new listing's owner's email
+            Console.Clear();
             Console.WriteLine("Enter the listing's  owner's email.");
             string ownerEmail = Console.ReadLine();
             ownerEmail = CheckEmail(ownerEmail);
             newListing.SetEmail(ownerEmail);
 
             //Presents status
+            Console.Clear();
             Console.WriteLine(newListing.ToString());
             Console.ReadKey();
 
@@ -164,39 +172,45 @@ namespace MIS221_Starter_Code
 
             //Preforms a binary search for the listing ID
             string searchValue = Console.ReadLine();
-            int foundIndex = Search(myListing, searchValue);
+            int foundIndex = SearchListing(myListing, searchValue);
 
             //Presents menu of options to edit
+            Console.Clear();
             int menuChoice = EditMenu();
             menuChoice = EditCheck(menuChoice);
 
             //Edits listing ID
             if (menuChoice == 1)
             {
+                Console.Clear();
                 Console.WriteLine("Enter new ID.");
                 string listingID = Console.ReadLine();
-                listingID = CheckID(listingID);
+                listingID = CheckInput(listingID);
+                listingID = SearchID(myListing, listingID);
                 myListing[foundIndex].SetID(listingID);
             }
             //Edits street address
             else if (menuChoice == 2)
             {
+                Console.Clear();
                 Console.WriteLine("Enter new address.");
                 string addressStreet = Console.ReadLine();
-                addressStreet = CheckAddress(addressStreet);
+                addressStreet = CheckInput(addressStreet);
                 myListing[foundIndex].SetAddress(addressStreet);
             }
             //Edits city
             else if (menuChoice == 3)
             {
+                Console.Clear();
                 Console.WriteLine("Enter new city.");
                 string addressCity = Console.ReadLine();
-                addressCity = CheckAddress(addressCity);
+                addressCity = CheckInput(addressCity);
                 myListing[foundIndex].SetCity(addressCity);
             }
             //Edits state
             else if (menuChoice == 4)
             {
+                Console.Clear();
                 Console.WriteLine("Enter new state.");
                 string addressState = Console.ReadLine().ToUpper();
                 addressState = CheckState(addressState);
@@ -205,6 +219,7 @@ namespace MIS221_Starter_Code
             //Edits end date
             else if (menuChoice == 5)
             {
+                Console.Clear();
                 Console.WriteLine("Enter new date (mm/dd/yyyy).");
                 string endDate = Console.ReadLine();
                 endDate = CheckDate(endDate);
@@ -213,6 +228,7 @@ namespace MIS221_Starter_Code
             //Edits listing price
             else if (menuChoice == 6)
             {
+                Console.Clear();
                 Console.WriteLine("Enter new price.");
                 double listPrice = double.Parse(Console.ReadLine());
                 listPrice = CheckPrice(listPrice);
@@ -221,12 +237,14 @@ namespace MIS221_Starter_Code
             //Edits owner email
             else if (menuChoice == 7)
             {
+                Console.Clear();
                 Console.WriteLine("Enter new email.");
                 string ownerEmail = Console.ReadLine();
                 ownerEmail = CheckEmail(ownerEmail);
                 myListing[foundIndex].SetEmail(ownerEmail);
             }
             //Prints out edited listings
+            Console.Clear();
             ListingFile.PrintListing(myListing);
 
             //Saves edited listings
@@ -246,7 +264,7 @@ namespace MIS221_Starter_Code
             ListingFile.PrintListing(myListing);
             Console.WriteLine("Enter the ID of the listing to delete.");
             string searchValue = Console.ReadLine();
-            int foundIndex = Search(myListing, searchValue);
+            int foundIndex = SearchListing(myListing, searchValue);
 
             //Deletes listing found under specified listing ID
             Array.Clear(myListing, foundIndex, 6);
@@ -254,6 +272,7 @@ namespace MIS221_Starter_Code
             //Decreases count of listings in file
             Listing.DownCount();
             ListingFile.SaveEditedListing(myListing);
+            Console.Clear();
             ListingFile.PrintListing(myListing);
             Console.ReadKey();
             Menu();
@@ -261,6 +280,180 @@ namespace MIS221_Starter_Code
 
         public static void LeaseCondo()
         {
+            Console.Clear();
+            Console.WriteLine("Press '1' to lease condo.");
+            Console.WriteLine("Press '2' to edit lease.");
+            int inputChoice = int.Parse(Console.ReadLine());
+            if(inputChoice == 1)
+            {
+                Console.Clear();
+                Listing[] myListing = ListingFile.GetListings();
+                Listing.SortListing(myListing);
+                ListingFile.PrintListing(myListing);
+
+                //Instantiated new object
+                Renting myRental = new Renting();
+
+                //Sets listing ID
+                Console.WriteLine("Enter the listing ID of the listing to be rented.");
+                string listingID = Console.ReadLine();
+                listingID = CheckInput(listingID);
+                myRental.SetID(listingID);
+
+                //Sets name of person renting
+                Console.Clear();
+                Console.WriteLine("Enter the name of the person renting.");
+                string renterName = Console.ReadLine();
+                renterName = CheckInput(renterName);
+                myRental.SetName(renterName);
+
+                //Sets renter's email
+                Console.Clear();
+                Console.WriteLine("Enter the renter's email.");
+                string renterEmail = Console.ReadLine();
+                renterEmail = CheckEmail(renterEmail);
+                myRental.SetRenterEmail(renterEmail);
+
+                //Sets check-in date
+                Console.Clear();
+                Console.WriteLine("Enter the date of check-in.");
+                string rentalDate = Console.ReadLine();
+                rentalDate = CheckDate(rentalDate);
+                myRental.SetRentalDate(rentalDate);
+
+                //Sets rental amount
+                string searchValue = listingID;
+                int foundIndex = SearchListing(myListing, searchValue);
+                double listingPrice = myListing[foundIndex].GetPrice();
+                myRental.SetAmount(listingPrice);
+
+                //Sets check-out date
+                Console.Clear();
+                Console.WriteLine("Enter the date of check-out.");
+                string checkOutDate = Console.ReadLine();
+                checkOutDate = CheckOutDate(checkOutDate, rentalDate);
+                myRental.SetCheckOutDate(checkOutDate);
+
+                //Sets owner email;
+                string ownerEmail = myListing[foundIndex].GetEmail();
+                myRental.SetOwnerEmail(ownerEmail);
+
+                //Sets total rental amount
+                DateTime checkOut = DateTime.Parse(checkOutDate);
+                DateTime checkIn = DateTime.Parse(rentalDate);
+                int daysDiff = ((TimeSpan)(checkOut - checkIn)).Days;
+                double totalAmount = (daysDiff + 1) * listingPrice;
+                myRental.SetTotalAmount(totalAmount);
+
+                Array.Clear(myListing, foundIndex, 6);
+
+                //Decreases count of listings in file
+                Listing.DownCount();
+                ListingFile.SaveEditedListing(myListing);
+
+                //Displays rental summary
+                Console.Clear();
+                Console.WriteLine(myRental.ToString());
+                Console.ReadKey();
+
+                RentingFiles.SaveRentals(myRental);
+
+                Renting.IntCount();
+                Menu();
+            }
+            else
+            {
+                Console.Clear();
+                Renting[] myRentals = RentingFiles.GetRentals();
+                Listing[] myListing = ListingFile.GetListings();
+
+                Renting.SortRentals(myRentals);
+                RentingFiles.PrintRentals(myRentals);
+                Console.WriteLine("Enter the ID of the rental to edit.");
+
+                string searchValue = Console.ReadLine();
+                int foundIndex = SearchRenting(myRentals, searchValue);
+
+                Console.Clear();
+                int menuChoice = RentingEditMenu();
+                menuChoice = RentingEditCheck(menuChoice);
+                if(menuChoice == 1)
+                {
+                    //Edits listing ID
+                    Console.WriteLine("Edit the listing ID of the listing to be rented.");
+                    string listingID = Console.ReadLine();
+                    listingID = CheckInput(listingID);
+                    myRentals[foundIndex].SetID(listingID);
+                }
+                if(menuChoice == 2)
+                {
+                    //Edits name of person renting
+                    Console.Clear();
+                    Console.WriteLine("Edit the name of the person renting.");
+                    string renterName = Console.ReadLine();
+                    renterName = CheckInput(renterName);
+                    myRentals[foundIndex].SetName(renterName);
+                }
+                if (menuChoice == 3)
+                {
+                    //Edits renter's email
+                    Console.Clear();
+                    Console.WriteLine("Enter the renter's email.");
+                    string renterEmail = Console.ReadLine();
+                    renterEmail = CheckEmail(renterEmail);
+                    myRentals[foundIndex].SetRenterEmail(renterEmail);
+                }
+                if (menuChoice == 4)
+                {
+                    //Edits check-in date
+                    Console.Clear();
+                    Console.WriteLine("Enter the date of check-in.");
+                    string rentalDate = Console.ReadLine();
+                    string endDate = myListing[foundIndex].GetDate();
+                    rentalDate = CheckInDate(endDate, rentalDate);
+                    myRentals[foundIndex].SetRentalDate(rentalDate);
+                }
+                if (menuChoice == 5)
+                {
+                    //Edits check-out date
+                    Console.Clear();
+                    string checkInDate = myRentals[foundIndex].GetRentalDate();
+                    Console.WriteLine("Enter the date of check-out.");
+                    string checkOutDate = Console.ReadLine();
+                    checkOutDate = CheckOutDate(checkOutDate, checkInDate);
+                    myRentals[foundIndex].SetCheckOutDate(checkOutDate);
+                }
+
+                //Updates rental amount
+                string searchItem = myRentals[foundIndex].GetID();
+                int foundPlace = SearchListing(myListing, searchItem);
+                double listingPrice = myListing[foundPlace].GetPrice();
+                myRentals[foundIndex].SetAmount(listingPrice);
+
+                //Updates owner email
+                string searchInput = myRentals[foundIndex].GetID();
+                int indexFound = SearchListing(myListing, searchInput);
+                string ownerEmail = myListing[indexFound].GetEmail();
+                myRentals[foundIndex].SetOwnerEmail(ownerEmail);
+
+                //Updates total rental amount
+                string checkOutDay = myRentals[foundIndex].GetCheckOutDate();
+                string rentDate = myRentals[foundIndex].GetRentalDate();
+                DateTime checkOut = DateTime.Parse(checkOutDay);
+                DateTime checkIn = DateTime.Parse(rentDate);
+                int daysDiff = ((TimeSpan)(checkOut - checkIn)).Days;
+                double totalAmount = (daysDiff + 1) * listingPrice;
+                myRentals[foundIndex].SetTotalAmount(totalAmount);
+
+                Console.Clear();
+                RentingFiles.PrintRentals(myRentals);
+
+                //Saves edited rentals
+                RentingFiles.SaveEditedRentals(myRentals);
+
+                Console.ReadKey();
+                Menu();
+            }
 
         }
 
@@ -279,6 +472,17 @@ namespace MIS221_Starter_Code
             Console.WriteLine("Enter '5' to edit listing end date.");
             Console.WriteLine("Enter '6' to edit listing price.");
             Console.WriteLine("Enter '7' to edit listing owner email.");
+
+            return int.Parse(Console.ReadLine());
+        }
+
+        public static int RentingEditMenu()
+        {
+            Console.WriteLine("Enter '1' to edit listing ID.");
+            Console.WriteLine("Enter '2' to edit renter name.");
+            Console.WriteLine("Enter '3' to edit renter email.");
+            Console.WriteLine("Enter '4' to edit check-in date.");
+            Console.WriteLine("Enter '5' to edit check-out date.");
 
             return int.Parse(Console.ReadLine());
         }
@@ -309,37 +513,46 @@ namespace MIS221_Starter_Code
                 }
             }
         }
-        
 
-        //Checks if id was valid
-        public static string CheckID(string listingID)
+        public static int RentingEditCheck(int menuChoice)
         {
-            if(string.IsNullOrEmpty(listingID))
+            string menuString = menuChoice.ToString();
+            if (string.IsNullOrEmpty(menuString))
             {
                 ErrorMessage();
-                string input1 = Console.ReadLine();
-                string input2 = CheckID(input1);
+                int input1 = int.Parse(Console.ReadLine());
+                int input2 = RentingEditCheck(input1);
                 return input2;
             }
             else
             {
-                return listingID;
+                if (menuChoice < 1 || menuChoice > 5)
+                {
+                    ErrorMessage();
+                    int input1 = int.Parse(Console.ReadLine());
+                    int input2 = RentingEditCheck(input1);
+                    return input2;
+                }
+                else
+                {
+                    return menuChoice;
+                }
             }
         }
 
-        //Checks if address and city were valid
-        public static string CheckAddress(string addressStreet)
+        //Checks if id was valid
+        public static string CheckInput(string input)
         {
-            if(string.IsNullOrEmpty(addressStreet))
+            if(string.IsNullOrEmpty(input))
             {
                 ErrorMessage();
                 string input1 = Console.ReadLine();
-                string input2 = CheckAddress(input1);
+                string input2 = CheckInput(input1);
                 return input2;
             }
             else
             {
-                return addressStreet;   
+                return input;
             }
         }
         
@@ -384,7 +597,7 @@ namespace MIS221_Starter_Code
             {
                 DateTime dDate = DateTime.Parse(endDate);
                 DateTime today = DateTime.Today;
-                if (dDate > today)
+                if (dDate >= today)
                 {
                     return string.Format("{0:MM/dd/yyyy}", dDate);
                 }
@@ -399,6 +612,62 @@ namespace MIS221_Starter_Code
             }
         }
 
+        public static string CheckInDate(string endDate, string rentalDate)
+        {
+            if (string.IsNullOrEmpty(rentalDate))
+            {
+                ErrorMessage();
+                string input1 = Console.ReadLine();
+                string input2 = CheckDate(input1);
+                return input2;
+            }
+            else
+            {
+                DateTime dDate = DateTime.Parse(endDate);
+                DateTime checkInDate = DateTime.Parse(rentalDate);
+                if (dDate >= checkInDate)
+                {
+                    return string.Format("{0:MM/dd/yyyy}", checkInDate);
+                }
+                else
+                {
+                    ErrorMessage();
+                    string input1 = Console.ReadLine();
+                    string input2 = CheckDate(input1);
+                    return input2;
+                }
+
+            }
+        }
+
+        //Checks if check out date is after check in date
+        public static string CheckOutDate(string checkOutDate, string rentalDate)
+        {
+            if (string.IsNullOrEmpty(checkOutDate))
+            {
+                ErrorMessage();
+                string input1 = Console.ReadLine();
+                string input2 = CheckDate(input1);
+                return input2;
+            }
+            else
+            {
+                DateTime checkOut = DateTime.Parse(checkOutDate);
+                DateTime checkIn = DateTime.Parse(rentalDate);
+                if (checkOut >= checkIn)
+                {
+                    return string.Format("{0:MM/dd/yyyy}", checkOut);
+                }
+                else
+                {
+                    ErrorMessage();
+                    string input1 = Console.ReadLine();
+                    string input2 = CheckDate(input1);
+                    return input2;
+                }
+
+            }
+        }
 
         //Checks if price was valid
         public static double CheckPrice(double listPrice)
@@ -455,7 +724,7 @@ namespace MIS221_Starter_Code
         }
 
         //Checks if search value was valid
-        public static int Search(Listing[] myListing, string searchValue)
+        public static int SearchListing(Listing[] myListing, string searchValue)
         {
             int foundIndex = Listing.BinarySearch(myListing, searchValue);
             if(foundIndex != -1)
@@ -466,7 +735,42 @@ namespace MIS221_Starter_Code
             {
                 ErrorMessage();
                 string input1 = Console.ReadLine();
-                int input2 = Search(myListing, input1);
+                int input2 = SearchListing(myListing, input1);
+                return input2;
+            }
+        }
+
+        //Checks if listing ID already exists
+        public static string SearchID(Listing[] myListing, string searchValue)
+        {
+            int foundIndex = Listing.BinarySearch(myListing, searchValue);
+            if (foundIndex != -1)
+            {
+                ErrorMessage();
+                string input1 = Console.ReadLine();
+                int input2 = SearchListing(myListing, input1);
+                return input1;
+            }
+            else
+            {
+                return searchValue;
+            }
+        }
+
+
+        //Searches renting 
+        public static int SearchRenting(Renting[] myRentals, string searchValue)
+        {
+            int foundIndex = Renting.BinarySearch(myRentals, searchValue);
+            if (foundIndex != -1)
+            {
+                return foundIndex;
+            }
+            else
+            {
+                ErrorMessage();
+                string input1 = Console.ReadLine();
+                int input2 = SearchRenting(myRentals, input1);
                 return input2;
             }
         }

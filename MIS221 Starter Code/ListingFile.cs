@@ -54,7 +54,7 @@ namespace MIS221_Starter_Code
             for (int i = 0; i < Listing.GetCount(); i++)
             {
                 outFile.WriteLine(myListing[i].GetID() + '#' + myListing[i].GetAddress() + '#' + myListing[i].GetCity() + '#' +
-                    myListing[i].GetState() + '#' + myListing[i].GetDate() + '#' + string.Format("{0:0.00}", myListing[i].GetPrice()) + '#' + myListing[i].GetEmail());
+                    myListing[i].GetState() + '#' + myListing[i].GetDate() + '#' + myListing[i].GetPrice() + '#' + myListing[i].GetEmail());
             }
             outFile.Close();
         }
