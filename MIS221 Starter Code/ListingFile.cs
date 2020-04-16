@@ -11,7 +11,7 @@ namespace MIS221_Starter_Code
     {
         public static Listing[] GetListings()
         {
-            Listing[] myListing = new Listing[8];
+            Listing[] myListing = new Listing[100];
             Listing.SetCount(0);
             StreamReader inFile = new StreamReader(@"C:\Text\listings.txt");
 

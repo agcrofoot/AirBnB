@@ -11,7 +11,7 @@ namespace MIS221_Starter_Code
     {
         public static Renting[] GetRentals()
         {
-            Renting[] myRentals = new Renting[8];
+            Renting[] myRentals = new Renting[100];
             Renting.SetCount(0);
             StreamReader inFile = new StreamReader(@"C:\Text\transactions.txt");
 
@@ -58,6 +58,15 @@ namespace MIS221_Starter_Code
                 myRentals[i].GetRentalDate() + '#' + myRentals[i].GetAmount() + '#' + myRentals[i].GetCheckOutDate() + '#' +
                 myRentals[i].GetOwnerEmail() + '#' + myRentals[i].GetTotalAmount());
             }
+            outFile.Close();
+        }
+
+        public static void SaveICRRentals(Renting myICR)
+        {
+            StreamWriter outFile = File.AppendText(@"C:\Text\icr.txt");
+            outFile.WriteLine(myICR.GetID() + '#' + myICR.GetName() + '#' + myICR.GetRenterEmail() + '#' +
+                myICR.GetRentalDate() + '#' + myICR.GetAmount() + '#' + myICR.GetCheckOutDate() + '#' +
+                myICR.GetOwnerEmail() + '#' + myICR.GetTotalAmount());
             outFile.Close();
         }
     }
