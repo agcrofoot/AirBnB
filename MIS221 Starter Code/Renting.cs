@@ -101,6 +101,7 @@ namespace MIS221_Starter_Code
             this.rentalDate = rentalDate;
         }
 
+
         public void SetAmount(double rentalAmount)
         {
             this.rentalAmount = rentalAmount;
@@ -176,6 +177,25 @@ namespace MIS221_Starter_Code
                 for (int inner = outer + 1; inner < count; inner++)
                 {
                     if (myRentals[min].GetRenterEmail().CompareTo(myRentals[inner].GetRenterEmail()) > 0)
+                    {
+                        min = inner;
+                    }
+                }
+                if (min != outer)
+                {
+                    Swap(myRentals, min, outer);
+                }
+            }
+        }
+
+        public static void SortRentalDate(Renting[] myRentals)
+        {
+            for (int outer = 0; outer < count - 1; outer++)
+            {
+                int min = outer;
+                for (int inner = outer + 1; inner < count; inner++)
+                {
+                    if (myRentals[min].GetRentalDate().CompareTo(myRentals[inner].GetRentalDate()) > 0)
                     {
                         min = inner;
                     }
@@ -287,6 +307,7 @@ namespace MIS221_Starter_Code
             int nameCount = 1;
             double sum = myRentals[0].GetTotalAmount();
             string current = myRentals[0].GetName();
+
             Console.WriteLine(myRentals[0].ToString());
 
             for(int i = 1; i < Renting.GetCount(); i++)
@@ -313,5 +334,39 @@ namespace MIS221_Starter_Code
 
         }
 
+        public static void HRRReports(Renting[] myRentals)
+        {
+            int monthCount = 1;
+            double sum = myRentals[0].GetTotalAmount();
+            string date = myRentals[0].GetRentalDate();
+            DateTime monthDate = DateTime.Parse(date);
+            string current = string.Format("{0:MMMM, yyyy}", monthDate);
+
+            for (int i = 1; i < Renting.GetCount(); i++)
+            {
+                string date1 = myRentals[i].GetRentalDate();
+                DateTime monthDate1 = DateTime.Parse(date1);
+                string current1 = string.Format("{0:MMMM, yyyy}", monthDate1);
+                if (current1 == current)
+                {
+                    monthCount++;
+                    sum += myRentals[i].GetTotalAmount();
+                }
+                else
+                {
+                    Console.WriteLine("Current month: " + current + "\t" + " Total revenue : " + sum);
+                    date = myRentals[i].GetRentalDate();
+                    monthDate = DateTime.Parse(date);
+                    current = string.Format("{0:MMMM, yyyy}", monthDate);
+                    sum = myRentals[i].GetTotalAmount();
+                    monthCount = 1;
+
+                }
+
+            }
+
+            Console.WriteLine("Current month: " + current + "\t" + " Total revenue : " + sum);
+
+        }
     }
 }

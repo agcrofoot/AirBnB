@@ -518,7 +518,6 @@ namespace MIS221_Starter_Code
                     indexFound = Renting.BinaryEmailSearch(myRentals, "next");
                 }
                 Renting.SortRentals(myRentals);
-                RentingFiles.PrintRentals(myRentals);
 
                 //Prompts to save to file or not
                 Console.WriteLine("Would you like to save this report to a file?");
@@ -533,7 +532,7 @@ namespace MIS221_Starter_Code
 
                     for (int i = 0; i < count; i++)
                     {
-                        outFile.WriteLine(myICR[i].ToFile());
+                        outFile.WriteLine(myICR[i].ToString());
                     }
                     outFile.Close();
                     Console.WriteLine("The report has been saved.");
@@ -566,6 +565,33 @@ namespace MIS221_Starter_Code
                 if (yesOrNo == 1)
                 {
                     Console.Clear();
+                    StreamWriter outFile = new StreamWriter(@"C:\Text\hcr.txt");
+                    int nameCount = 1;
+                    double sum = myRentals[0].GetTotalAmount();
+                    string current = myRentals[0].GetName();
+                    outFile.WriteLine(myRentals[0].ToString());
+
+                    for (int i = 1; i < Renting.GetCount(); i++)
+                    {
+                        if (myRentals[i].GetName() == current)
+                        {
+                            outFile.WriteLine(myRentals[i].ToString());
+                            nameCount++;
+                            sum += myRentals[i].GetTotalAmount();
+                        }
+                        else
+                        {
+                            outFile.WriteLine("Current name: " + current + "\t" + " Total rentals : " + nameCount + "\t" + " Average rental amount: " + (sum / nameCount));
+                            current = myRentals[i].GetName();
+                            sum = myRentals[i].GetTotalAmount();
+                            nameCount = 1;
+                            outFile.WriteLine(myRentals[i].ToString());
+                        }
+                    }
+                    outFile.WriteLine("Current name: " + current + "\t" + " Total rentals : " + nameCount + "\t" + " Average rental amount: " + (sum / nameCount));
+                    outFile.Close();
+
+            
                     Console.WriteLine("The report has been saved.");
                     Console.WriteLine("Press any key to return to the Menu.");
                     Console.ReadKey();
@@ -578,12 +604,71 @@ namespace MIS221_Starter_Code
                     Console.ReadKey();
                     Menu();
                 }
-
-
-
             }
             else
             {
+                Console.Clear();
+                Renting[] myRentals = RentingFiles.GetRentals();
+                Renting.SortRentalDate(myRentals);
+                Renting.HRRReports(myRentals);
+
+                Console.WriteLine("Would you like to save this report to a file?");
+                Console.WriteLine("Enter '1' for Yes.");
+                Console.WriteLine("Enter '2' for No.");
+                int yesOrNo = int.Parse(Console.ReadLine());
+                yesOrNo = call.YNCheck(yesOrNo);
+                if (yesOrNo == 1)
+                {
+                    Console.Clear();
+                    StreamWriter outFile = new StreamWriter(@"C:\Text\hrr.txt");
+                    int monthCount = 1;
+                    double sum = myRentals[0].GetTotalAmount();
+                    string date = myRentals[0].GetRentalDate();
+                    DateTime monthDate = DateTime.Parse(date);
+                    string current = string.Format("{0:MMMM, yyyy}", monthDate);
+
+                    for (int i = 1; i < Renting.GetCount(); i++)
+                    {
+                        string date1 = myRentals[i].GetRentalDate();
+                        DateTime monthDate1 = DateTime.Parse(date1);
+                        string current1 = string.Format("{0:MMMM, yyyy}", monthDate1);
+                        if (current1 == current)
+                        {
+                            monthCount++;
+                            sum += myRentals[i].GetTotalAmount();
+                        }
+                        else
+                        {
+                            outFile.WriteLine("Current month: " + current + "\t" + " Total revenue : " + sum);
+                            date = myRentals[i].GetRentalDate();
+                            monthDate = DateTime.Parse(date);
+                            current = string.Format("{0:MMMM, yyyy}", monthDate);
+                            sum = myRentals[i].GetTotalAmount();
+                            monthCount = 1;
+
+                        }
+
+                    }
+
+                    outFile.WriteLine("Current month: " + current + "\t" + " Total revenue : " + sum);
+
+
+                    outFile.Close();
+
+
+                    Console.WriteLine("The report has been saved.");
+                    Console.WriteLine("Press any key to return to the Menu.");
+                    Console.ReadKey();
+                    Menu();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Press any key to return to the Menu.");
+                    Console.ReadKey();
+                    Menu();
+                }
+                Console.ReadKey();
 
             }
         }
