@@ -41,14 +41,11 @@ namespace MIS221_Starter_Code
         }
 
         //Saves listings to listings.txt
-        public static void SaveNewListing(Listing[] myListing)
+        public static void SaveNewListing(Listing myListing)
         {
             StreamWriter outFile = File.AppendText(@"C:\Text\listings.txt");
 
-            for (int i = 0; i < Listing.GetCount(); i++)
-            {
-                outFile.WriteLine(myListing[i].ToFile());
-            }
+            outFile.WriteLine(myListing.ToFile());
             outFile.Close();
         }
 

@@ -65,15 +65,58 @@ namespace MIS221_Starter_Code
         public static void AddListing()
         {
             Console.Clear();
+            Check call = new Check();
+            Listing myListing = new Listing();
 
-            Listing[] myListing = Listing.GetListing();
+            Console.Clear();
+            Console.WriteLine("Enter the listing ID.");
+            string listingID = Console.ReadLine();
+            listingID = call.CheckInput(listingID);
+            myListing.SetID(listingID);
+
+            Console.Clear();
+            Console.WriteLine("Enter the address.");
+            string addressStreet = Console.ReadLine();
+            addressStreet = call.CheckInput(addressStreet);
+            myListing.SetAddress(addressStreet);
+
+            Console.Clear();
+            Console.WriteLine("Enter the city.");
+            string addressCity = Console.ReadLine();
+            addressCity = call.CheckInput(addressCity);
+            myListing.SetCity(addressCity);
+
+            Console.Clear();
+            Console.WriteLine("Enter the state abbriviation.");
+            string addressState = Console.ReadLine().ToUpper();
+            addressState = call.CheckState(addressState);
+            myListing.SetState(addressState);
+
+            Console.Clear();
+            Console.WriteLine("Enter the listing end date.");
+            string endDate = Console.ReadLine();
+            endDate = call.CheckDate(endDate);
+            myListing.SetDate(endDate);
+
+            Console.Clear();
+            Console.WriteLine("Enter the listing price.");
+            double listPrice = double.Parse(Console.ReadLine());
+            listPrice = call.CheckPrice(listPrice);
+            myListing.SetPrice(listPrice);
+
+            Console.Clear();
+            Console.WriteLine("Enter the owner's email.");
+            string ownerEmail = Console.ReadLine();
+            ownerEmail = call.CheckEmail(ownerEmail);
+            myListing.SetEmail(ownerEmail);
 
             //Presents status
             Console.Clear();
-            ListingFile.PrintListing(myListing);
+            Console.WriteLine(myListing.ToString());
 
             //Save to file
             ListingFile.SaveNewListing(myListing);
+            Listing.IntCount();
 
             //Return to menu
             Console.WriteLine("Press any key to return to the Menu.");
@@ -211,23 +254,86 @@ namespace MIS221_Starter_Code
         public static void LeaseCondo()
         {
             Console.Clear();
-            Check call = new Check();
+            Check look = new Check();
             Console.WriteLine("Enter '1' to lease condo.");
             Console.WriteLine("Enter '2' to edit lease.");
             Console.WriteLine("Enter '3' to delete leasing.");
             int inputChoice = int.Parse(Console.ReadLine());
-            inputChoice = call.OptionCheck(inputChoice);
+            inputChoice = look.OptionCheck(inputChoice);
 
             //Adds rental
             if(inputChoice == 1)
             {
                 Console.Clear();
-                Renting[] myRentals = Renting.GetRental();
+                Check call = new Check();
+                Listing[] myListing = ListingFile.GetListings();
+                Listing.SortListing(myListing);
+                ListingFile.PrintListing(myListing);
 
+                Renting myRentals = new Renting();
+
+                Console.WriteLine("Enter the listing ID.");
+                string listingID = Console.ReadLine();
+                listingID = call.CheckInput(listingID);
+                myRentals.SetID(listingID);
+
+                //Sets name of person renting
+                Console.Clear();
+                Console.WriteLine("Enter the name of the person renting.");
+                string renterName = Console.ReadLine();
+                renterName = call.CheckInput(renterName);
+                myRentals.SetName(renterName);
+
+                //Sets renter's email
+                Console.Clear();
+                Console.WriteLine("Enter the renter's email.");
+                string renterEmail = Console.ReadLine();
+                renterEmail = call.CheckEmail(renterEmail);
+                myRentals.SetRenterEmail(renterEmail);
+
+                //Sets check-in date
+                Console.Clear();
+                Console.WriteLine("Enter the date of check-in.");
+                string rentalDate = Console.ReadLine();
+                rentalDate = call.CheckDate(rentalDate);
+                myRentals.SetRentalDate(rentalDate);
+
+                //Sets rental amount
+                string searchValue = listingID;
+                int indexFound = call.SearchListing(myListing, searchValue);
+                double rentalAmount = myListing[indexFound].GetPrice();
+                myRentals.SetAmount(rentalAmount);
+
+                //Sets check-out date
+                Console.Clear();
+                Console.WriteLine("Enter the date of check-out.");
+                string checkOutDate = Console.ReadLine();
+                checkOutDate = call.CheckOutDate(checkOutDate, rentalDate);
+                myRentals.SetCheckOutDate(checkOutDate);
+
+                //Sets owner email;
+                string ownerEmail = myListing[indexFound].GetEmail();
+                myRentals.SetOwnerEmail(ownerEmail);
+
+                //Sets total rental amount
+                DateTime checkOut = DateTime.Parse(checkOutDate);
+                DateTime checkIn = DateTime.Parse(rentalDate);
+                int daysDiff = ((TimeSpan)(checkOut - checkIn)).Days;
+                double totalAmount = (daysDiff) * rentalAmount;
+                myRentals.SetTotalAmount(totalAmount);
+                
                 //Displays rental summary
                 Console.Clear();
-                RentingFiles.PrintRentals(myRentals);
+                Console.WriteLine(myRentals.ToString());
                 RentingFiles.SaveRentals(myRentals, @"C:\Text\transactions.txt");
+                Renting.IntCount();
+
+                Array.Clear(myListing, indexFound, 1);
+
+                Listing.ShiftListing(myListing, indexFound);
+                Listing.DownCount();
+
+                ListingFile.SaveEditedListing(myListing, @"C:\Text\listings.txt");
 
                 Console.WriteLine("Press any key to return to the Menu.");
                 Console.ReadKey();
@@ -239,7 +345,7 @@ namespace MIS221_Starter_Code
                 Console.Clear();
                 Renting[] myRentals = RentingFiles.GetRentals();
                 Listing[] myListing = ListingFile.GetListings();
-
+                Check call = new Check();
                 Renting.SortRentals(myRentals);
                 RentingFiles.PrintRentals(myRentals);
                 Console.WriteLine("Enter the ID of the rental to edit.");
@@ -333,6 +439,7 @@ namespace MIS221_Starter_Code
             {
                 Console.Clear();
                 Renting[] myRentals = RentingFiles.GetRentals();
+                Check call = new Check();
                 Renting.SortRentals(myRentals);
                 RentingFiles.PrintRentals(myRentals);
                 Console.WriteLine("Enter the ID of the rental to delete.");
@@ -453,7 +560,6 @@ namespace MIS221_Starter_Code
                 if (yesOrNo == 1)
                 {
                     Console.Clear();
-
                     Console.WriteLine("The report has been saved.");
                     Console.WriteLine("Press any key to return to the Menu.");
                     Console.ReadKey();
@@ -462,7 +568,6 @@ namespace MIS221_Starter_Code
                 else
                 {
                     Console.Clear();
-                    File.WriteAllText(@"C:\Text\hcr.txt", String.Empty);
                     Console.WriteLine("Press any key to return to the Menu.");
                     Console.ReadKey();
                     Menu();

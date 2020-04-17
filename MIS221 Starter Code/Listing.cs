@@ -155,65 +155,10 @@ namespace MIS221_Starter_Code
         public string ToFile()
         {
             return listingID + "#" + addressStreet + "#" + addressCity + "#" + addressState +
-                "#" + endDate + "#" + string.Format("{0:C}", listPrice) + "#" + ownerEmail;
+                "#" + endDate + "#" + listPrice + "#" + ownerEmail;
         }
 
-        public static Listing[] GetListing()
-        {
-            Listing[] myListing = new Listing[100];
-            Check call = new Check();
-            count = 0;
-            Console.WriteLine("Enter new listing ID, enter '-1' to stop.");
-            string listingID = Console.ReadLine();
-
-            while (listingID != "-1")
-            {
-                //Prompts new street address
-                Console.Clear();
-                Console.WriteLine("Enter the address (ex. 123 Example St. (optional: Apt/Suite 13).");
-                string addressStreet = Console.ReadLine();
-                addressStreet = call.CheckInput(addressStreet);
-
-                //Prompts new city
-                Console.Clear();
-                Console.WriteLine("Enter the address city.");
-                string addressCity = Console.ReadLine();
-                addressCity = call.CheckInput(addressCity);
-
-                //Prompts new state
-                Console.Clear();
-                Console.WriteLine("Enter the address state abbriviation.");
-                string addressState = Console.ReadLine().ToUpper();
-                addressState = call.CheckState(addressState);
-
-                //Prompts new end day
-                Console.Clear();
-                Console.WriteLine("Enter the listing end date (mm/dd/yyyy).");
-                string endDate = Console.ReadLine();
-                endDate = call.CheckDate(endDate);
-
-                //Prompts new listing price
-                Console.Clear();
-                Console.WriteLine("Enter the listing price.");
-                double listPrice = double.Parse(Console.ReadLine());
-                listPrice = call.CheckPrice(listPrice);
-
-                //Prompt new listing's owner's email
-                Console.Clear();
-                Console.WriteLine("Enter the listing's  owner's email.");
-                string ownerEmail = Console.ReadLine();
-                ownerEmail = call.CheckEmail(ownerEmail);
-
-                myListing[count] = new Listing(listingID, addressStreet, addressCity, addressState, endDate, listPrice, ownerEmail);
-                IntCount();
-
-                Console.Clear();
-                Console.WriteLine("Enter new listing ID, enter '-1' to stop.");
-                listingID = Console.ReadLine();
-            }
-
-            return myListing;
-        }
+        
 
 
         //Sorts by listing ID

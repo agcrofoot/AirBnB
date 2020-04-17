@@ -41,14 +41,11 @@ namespace MIS221_Starter_Code
 
 
 
-        public static void SaveRentals(Renting[] myRentals, string path)
+        public static void SaveRentals(Renting myRentals, string path)
         {
             StreamWriter outFile = File.AppendText(path);
 
-            for (int i = 0; i < Renting.GetCount(); i++)
-            {
-                outFile.WriteLine(myRentals[i].ToFile());
-            }
+            outFile.WriteLine(myRentals.ToFile());
             outFile.Close();
         }
 
