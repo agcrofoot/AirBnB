@@ -10,9 +10,9 @@ namespace MIS221_Starter_Code
     class Listing
     {
         private string listingID;
-        private string listAddress;
-        private string listCity;
-        private string listState;
+        private string addressStreet;
+        private string addressCity;
+        private string addressState;
         private string endDate;
         private double listPrice;
         private string ownerEmail;
@@ -25,12 +25,12 @@ namespace MIS221_Starter_Code
         }
 
         //Method constuctor
-        public Listing(string listingID, string listAddress, string listCity, string listState, string endDate, double listPrice, string ownerEmail)
+        public Listing(string listingID, string addressStreet, string addressCity, string addressState, string endDate, double listPrice, string ownerEmail)
         {
             this.listingID = listingID;
-            this.listAddress = listAddress;
-            this.listCity = listCity;
-            this.listState = listState;
+            this.addressStreet = addressStreet;
+            this.addressCity = addressCity;
+            this.addressState = addressState;
             this.endDate = endDate;
             this.listPrice = listPrice;
             this.ownerEmail = ownerEmail;
@@ -45,19 +45,19 @@ namespace MIS221_Starter_Code
         //Gets street address
         public string GetAddress()
         {
-            return this.listAddress;
+            return this.addressState;
         }
 
         //Gets city
         public string GetCity()
         {
-            return this.listCity;
+            return this.addressCity;
         }
 
         //Gets state
         public string GetState()
         {
-            return this.listState;
+            return this.addressState;
         }
         //Gets listing end day
         public string GetDate()
@@ -90,21 +90,21 @@ namespace MIS221_Starter_Code
         }
 
         //Sets street number
-        public void SetAddress(string listAddress)
+        public void SetAddress(string addressStreet)
         {
-            this.listAddress = listAddress;
+            this.addressStreet = addressStreet;
         }
 
         //Sets list city
-        public void SetCity(string listCity)
+        public void SetCity(string addressCity)
         {
-            this.listCity = listCity;
+            this.addressCity = addressCity;
         }
 
         //Sets list state
-        public void SetState(string listState)
+        public void SetState(string addressState)
         {
-            this.listState = listState;
+            this.addressState = addressState;
         }
 
         //Sets listing end date
@@ -137,6 +137,7 @@ namespace MIS221_Starter_Code
             count++;
         }
 
+        //Decreases count
         public static void DownCount()
         {
             count--;
@@ -145,11 +146,77 @@ namespace MIS221_Starter_Code
         //Converts to string
         public string ToString()
         {
-            return "The ID is " + listingID + " at " + listAddress + " " + listCity + ", " + listState + 
-                ". The end date is " + endDate + ". It is priced at " + string.Format("{0:C}", listPrice) + 
-                " and the owner's email is " + ownerEmail + ".";
+            return "Listing ID: " + listingID + " Address: " + addressState + " " + addressCity + ", " + addressState + 
+                " End Date: " + endDate + " Cost: " + string.Format("{0:C}", listPrice) + 
+                " Owner Email: " + ownerEmail;
         }
 
+        //Preps listing for file
+        public string ToFile()
+        {
+            return listingID + "#" + addressStreet + "#" + addressCity + "#" + addressState +
+                "#" + endDate + "#" + string.Format("{0:C}", listPrice) + "#" + ownerEmail;
+        }
+
+        public static Listing[] GetListing()
+        {
+            Listing[] myListing = new Listing[100];
+            Check call = new Check();
+            count = 0;
+            Console.WriteLine("Enter new listing ID, enter '-1' to stop.");
+            string listingID = Console.ReadLine();
+
+            while (listingID != "-1")
+            {
+                //Prompts new street address
+                Console.Clear();
+                Console.WriteLine("Enter the address (ex. 123 Example St. (optional: Apt/Suite 13).");
+                string addressStreet = Console.ReadLine();
+                addressStreet = call.CheckInput(addressStreet);
+
+                //Prompts new city
+                Console.Clear();
+                Console.WriteLine("Enter the address city.");
+                string addressCity = Console.ReadLine();
+                addressCity = call.CheckInput(addressCity);
+
+                //Prompts new state
+                Console.Clear();
+                Console.WriteLine("Enter the address state abbriviation.");
+                string addressState = Console.ReadLine().ToUpper();
+                addressState = call.CheckState(addressState);
+
+                //Prompts new end day
+                Console.Clear();
+                Console.WriteLine("Enter the listing end date (mm/dd/yyyy).");
+                string endDate = Console.ReadLine();
+                endDate = call.CheckDate(endDate);
+
+                //Prompts new listing price
+                Console.Clear();
+                Console.WriteLine("Enter the listing price.");
+                double listPrice = double.Parse(Console.ReadLine());
+                listPrice = call.CheckPrice(listPrice);
+
+                //Prompt new listing's owner's email
+                Console.Clear();
+                Console.WriteLine("Enter the listing's  owner's email.");
+                string ownerEmail = Console.ReadLine();
+                ownerEmail = call.CheckEmail(ownerEmail);
+
+                myListing[count] = new Listing(listingID, addressStreet, addressCity, addressState, endDate, listPrice, ownerEmail);
+                IntCount();
+
+                Console.Clear();
+                Console.WriteLine("Enter new listing ID, enter '-1' to stop.");
+                listingID = Console.ReadLine();
+            }
+
+            return myListing;
+        }
+
+
+        //Sorts by listing ID
         public static void SortListing(Listing[] myListing)
         {
             for(int outer = 0; outer < count - 1; outer++)
@@ -157,7 +224,7 @@ namespace MIS221_Starter_Code
                 int min = outer;
                 for(int inner = outer + 1; inner < count; inner++)
                 {
-                    if(myListing[inner].GetID().CompareTo(myListing[outer].GetID()) < 0)
+                    if(myListing[inner].GetID().CompareTo(myListing[min].GetID()) < 0)
                     {
                         min = inner;
                     }
@@ -169,6 +236,7 @@ namespace MIS221_Starter_Code
             }
         }
 
+        //Swaps the listings
         public static void Swap(Listing[] myListing, int x, int y)
         {
             Listing temp = myListing[x];
@@ -176,8 +244,7 @@ namespace MIS221_Starter_Code
             myListing[y] = temp;
         }
 
-
-
+        //Preforms a binary search for the listing ID
         public static int BinarySearch(Listing[] myListing, string searchValue)
         {
             int indexFound = -1;
@@ -206,6 +273,7 @@ namespace MIS221_Starter_Code
             return indexFound;
         }
 
+        //Shifts the listings to eliminate null space
         public static void ShiftListing(Listing[] myListing, int indexFound)
         {
             for(int i = indexFound; i < Listing.GetCount(); i++)

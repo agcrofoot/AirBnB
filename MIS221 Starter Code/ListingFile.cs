@@ -9,6 +9,7 @@ namespace MIS221_Starter_Code
 {
     class ListingFile
     {
+        //Reads in listings.txt
         public static Listing[] GetListings()
         {
             Listing[] myListing = new Listing[100];
@@ -30,6 +31,7 @@ namespace MIS221_Starter_Code
             return myListing;
         }
 
+        //Prints out all listings
         public static void PrintListing(Listing[] myListing)
         {
             for (int i = 0; i < Listing.GetCount(); i++)
@@ -38,23 +40,25 @@ namespace MIS221_Starter_Code
             }
         }
 
-
-        public static void SaveListing(Listing newListing)
+        //Saves listings to listings.txt
+        public static void SaveNewListing(Listing[] myListing)
         {
             StreamWriter outFile = File.AppendText(@"C:\Text\listings.txt");
-            outFile.WriteLine(newListing.GetID() + '#' + newListing.GetAddress() + '#' + newListing.GetCity() + '#' +
-                newListing.GetState() + '#' + newListing.GetDate() + '#' + newListing.GetPrice() + '#' + newListing.GetEmail());
-            outFile.Close();
-        }
-
-        public static void SaveEditedListing(Listing[] myListing)
-        {
-            StreamWriter outFile = new StreamWriter(@"C:\Text\listings.txt");
 
             for (int i = 0; i < Listing.GetCount(); i++)
             {
-                outFile.WriteLine(myListing[i].GetID() + '#' + myListing[i].GetAddress() + '#' + myListing[i].GetCity() + '#' +
-                    myListing[i].GetState() + '#' + myListing[i].GetDate() + '#' + myListing[i].GetPrice() + '#' + myListing[i].GetEmail());
+                outFile.WriteLine(myListing[i].ToFile());
+            }
+            outFile.Close();
+        }
+
+        public static void SaveEditedListing(Listing[] myListing, string path)
+        {
+            StreamWriter outFile = new StreamWriter(path);
+
+            for (int i = 0; i < Listing.GetCount(); i++)
+            {
+                outFile.WriteLine(myListing[i].ToFile());
             }
             outFile.Close();
         }

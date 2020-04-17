@@ -39,35 +39,29 @@ namespace MIS221_Starter_Code
             }
         }
 
-        public static void SaveRentals(Renting myRental)
-        {
-            StreamWriter outFile = File.AppendText(@"C:\Text\transactions.txt");
-            outFile.WriteLine(myRental.GetID() + '#' + myRental.GetName() + '#' + myRental.GetRenterEmail() + '#' +
-                myRental.GetRentalDate() + '#' + myRental.GetAmount() + '#' + myRental.GetCheckOutDate() + '#' + 
-                myRental.GetOwnerEmail() + '#' + myRental.GetTotalAmount());
-            outFile.Close();
-        }
 
-        public static void SaveEditedRentals(Renting[] myRentals)
+
+        public static void SaveRentals(Renting[] myRentals, string path)
         {
-            StreamWriter outFile = new StreamWriter(@"C:\Text\transactions.txt");
+            StreamWriter outFile = File.AppendText(path);
 
             for (int i = 0; i < Renting.GetCount(); i++)
             {
-                outFile.WriteLine(myRentals[i].GetID() + '#' + myRentals[i].GetName() + '#' + myRentals[i].GetRenterEmail() + '#' +
-                myRentals[i].GetRentalDate() + '#' + myRentals[i].GetAmount() + '#' + myRentals[i].GetCheckOutDate() + '#' +
-                myRentals[i].GetOwnerEmail() + '#' + myRentals[i].GetTotalAmount());
+                outFile.WriteLine(myRentals[i].ToFile());
             }
             outFile.Close();
         }
 
-        public static void SaveICRRentals(Renting myICR)
+        public static void SaveEditedRentals(Renting[] myRentals, string path)
         {
-            StreamWriter outFile = File.AppendText(@"C:\Text\icr.txt");
-            outFile.WriteLine(myICR.GetID() + '#' + myICR.GetName() + '#' + myICR.GetRenterEmail() + '#' +
-                myICR.GetRentalDate() + '#' + myICR.GetAmount() + '#' + myICR.GetCheckOutDate() + '#' +
-                myICR.GetOwnerEmail() + '#' + myICR.GetTotalAmount());
+            StreamWriter outFile = new StreamWriter(path);
+
+            for (int i = 0; i < Renting.GetCount(); i++)
+            {
+                outFile.WriteLine(myRentals[i].ToFile());
+            }
             outFile.Close();
         }
+
     }
 }

@@ -140,10 +140,91 @@ namespace MIS221_Starter_Code
 
         public string ToString()
         {
-            return "The listing ID is " + listingID + " to be rented by " + renterName + " (" + renterEmail + ") on "
-                + rentalDate + " until " + checkOutDate + ". The price per night is " + string.Format("{0:C}", rentalAmount) + " bringing the total cost to "
-                 + string.Format("{0:C}", totalAmount) + ". The owner can be reached at " + ownerEmail + ".";
+            return "Listing ID: " + listingID + " Renter Name: " + renterName + " Renter Email: " + renterEmail + " Check-In Date: "
+                + rentalDate + " Check-Out Date: " + checkOutDate + " Cost per Night: " + string.Format("{0:C}", rentalAmount) + " Total Cost: "
+                 + string.Format("{0:C}", totalAmount) + " Owner Email: " + ownerEmail;
         }
+
+        public string ToFile()
+        {
+            return listingID + "#" + renterName + "#" + renterEmail + "#" + rentalDate + "#"
+                + checkOutDate + "#" + string.Format("{0:C}", rentalAmount) + "#"
+                 + string.Format("{0:C}", totalAmount) + "#" + ownerEmail;
+        }
+
+        public static Renting[] GetRental()
+        {
+            Renting[] myRentals = new Renting[100];
+            Check call = new Check();
+            count = 0;
+            Console.WriteLine("Enter listing ID, enter '-1' to stop.");
+            string listingID = Console.ReadLine();
+
+            while (listingID != "-1")
+            {
+                Listing[] myListing = ListingFile.GetListings();
+                Listing.SortListing(myListing);
+                ListingFile.PrintListing(myListing);
+
+
+                //Sets name of person renting
+                Console.Clear();
+                Console.WriteLine("Enter the name of the person renting.");
+                string renterName = Console.ReadLine();
+                renterName = call.CheckInput(renterName);
+
+                //Sets renter's email
+                Console.Clear();
+                Console.WriteLine("Enter the renter's email.");
+                string renterEmail = Console.ReadLine();
+                renterEmail = call.CheckEmail(renterEmail);
+
+                //Sets check-in date
+                Console.Clear();
+                Console.WriteLine("Enter the date of check-in.");
+                string rentalDate = Console.ReadLine();
+                rentalDate = call.CheckDate(rentalDate);
+
+                //Sets rental amount
+                string searchValue = listingID;
+                int indexFound = call.SearchListing(myListing, searchValue);
+                double rentalAmount = myListing[indexFound].GetPrice();
+
+                //Sets check-out date
+                Console.Clear();
+                Console.WriteLine("Enter the date of check-out.");
+                string checkOutDate = Console.ReadLine();
+                checkOutDate = call.CheckOutDate(checkOutDate, rentalDate);
+
+                //Sets owner email;
+                string ownerEmail = myListing[indexFound].GetEmail();
+
+                //Sets total rental amount
+                DateTime checkOut = DateTime.Parse(checkOutDate);
+                DateTime checkIn = DateTime.Parse(rentalDate);
+                int daysDiff = ((TimeSpan)(checkOut - checkIn)).Days;
+                double totalAmount = (daysDiff) * rentalAmount;
+
+                myRentals[count] = new Renting(listingID, renterName, renterEmail, rentalDate, rentalAmount, checkOutDate, ownerEmail, totalAmount);
+                IntCount();
+
+                //Deletes listing from listing.txt
+                Array.Clear(myListing, indexFound, 1);
+
+                //Decreases count of listings in file
+                Listing.ShiftListing(myListing, indexFound);
+                Listing.DownCount();
+
+                ListingFile.SaveEditedListing(myListing, @"C:\Text\listings.txt");
+
+                Console.Clear();
+                Console.WriteLine("Enter listing ID, enter '-1' to stop.");
+                listingID = Console.ReadLine();
+            }
+
+            return myRentals;
+        }
+
 
         public static void SortRentals(Renting[] myRentals)
         {
@@ -152,7 +233,7 @@ namespace MIS221_Starter_Code
                 int min = outer;
                 for (int inner = outer + 1; inner < count; inner++)
                 {
-                    if (myRentals[inner].GetID().CompareTo(myRentals[outer].GetID()) < 0)
+                    if (myRentals[min].GetID().CompareTo(myRentals[inner].GetID()) > 0)
                     {
                         min = inner;
                     }
@@ -171,7 +252,7 @@ namespace MIS221_Starter_Code
                 int min = outer;
                 for (int inner = outer + 1; inner < count; inner++)
                 {
-                    if (myRentals[inner].GetRenterEmail().CompareTo(myRentals[outer].GetRenterEmail()) < 0)
+                    if (myRentals[min].GetRenterEmail().CompareTo(myRentals[inner].GetRenterEmail()) > 0)
                     {
                         min = inner;
                     }
@@ -190,7 +271,7 @@ namespace MIS221_Starter_Code
                 int min = outer;
                 for (int inner = outer + 1; inner < count; inner++)
                 {
-                    if (myRentals[inner].GetName().CompareTo(myRentals[outer].GetName()) < 0)
+                    if (myRentals[min].GetName().CompareTo(myRentals[inner].GetName()) > 0)
                     {
                         min = inner;
                     }
@@ -202,25 +283,6 @@ namespace MIS221_Starter_Code
             }
         }
 
-        public static void SortRentalDate(Renting[] myRentals)
-        {
-
-            for (int outer = 0; outer < count - 1; outer++)
-            {
-                int min = outer;
-                for (int inner = outer + 1; inner < count; inner++)
-                {
-                    if (DateTime.Parse(myRentals[inner].GetRentalDate()).CompareTo(DateTime.Parse(myRentals[outer].GetRentalDate())) < 0)
-                    {
-                        min = inner;
-                    }
-                }
-                if (min != outer)
-                {
-                    Swap(myRentals, min, outer);
-                }
-            }
-        }
 
         public static void Swap(Renting[] myRentals, int x, int y)
         {
@@ -228,6 +290,8 @@ namespace MIS221_Starter_Code
             myRentals[x] = myRentals[y];
             myRentals[y] = temp;
         }
+
+
 
         public static int BinaryIDSearch(Renting[] myRentals, string searchValue)
         {
@@ -283,6 +347,7 @@ namespace MIS221_Starter_Code
                 }
             }
             return indexFound;
+
         }
 
         public static void ShiftRentals(Renting[] myRentals, int indexFound)
@@ -293,30 +358,37 @@ namespace MIS221_Starter_Code
             }
         }
 
+
         public static void HCRReports(Renting[] myRentals)
         {
             int nameCount = 1;
             double sum = myRentals[0].GetTotalAmount();
             string current = myRentals[0].GetName();
+            Console.WriteLine(myRentals[0].ToString());
+
+
             for(int i = 1; i < Renting.GetCount(); i++)
             {
                 if(myRentals[i].GetName() == current)
                 {
+                    Console.WriteLine(myRentals[i].ToString());
                     nameCount++;
                     sum += myRentals[i].GetTotalAmount();
                 }
                 else
                 {
                     Console.WriteLine("Current name: " + current);
-                    Console.WriteLine("Average rental amount: " + (sum / nameCount));
                     Console.WriteLine("Total rentals : " + nameCount);
-                    nameCount = 1;
-                    sum = myRentals[i].GetTotalAmount();
+                    Console.WriteLine("Average rental amount: " + (sum / nameCount));
                     current = myRentals[i].GetName();
+                    sum = myRentals[i].GetTotalAmount();
+                    nameCount = 1;
+                    Console.WriteLine(myRentals[i].ToString());
 
                 }
                 
             }
+
             Console.WriteLine("Current name: " + current);
             Console.WriteLine("Average rental amount: " + (sum / nameCount));
             Console.WriteLine("Total rentals : " + nameCount);
