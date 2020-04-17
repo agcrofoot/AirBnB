@@ -352,8 +352,8 @@ namespace MIS221_Starter_Code
 
                 string searchValue = Console.ReadLine();
                 int indexFound = call.SearchRenting(myRentals, searchValue);
+                Console.WriteLine(myRentals[indexFound].ToString());
 
-                Console.Clear();
                 int menuChoice = RentingEditMenu();
                 menuChoice = call.RentingEditCheck(menuChoice);
                 if(menuChoice == 1)
@@ -402,18 +402,24 @@ namespace MIS221_Starter_Code
                     checkOutDate = call.CheckOutDate(checkOutDate, checkInDate);
                     myRentals[indexFound].SetCheckOutDate(checkOutDate);
                 }
-
-                //Updates rental amount
-                string searchItem = myRentals[indexFound].GetID();
-                int foundPlace = call.SearchListing(myListing, searchItem);
-                double listingPrice = myListing[foundPlace].GetPrice();
-                myRentals[indexFound].SetAmount(listingPrice);
-
-                //Updates owner email
-                string searchInput = myRentals[indexFound].GetID();
-                int foundAtIndex = call.SearchListing(myListing, searchInput);
-                string ownerEmail = myListing[foundAtIndex].GetEmail();
-                myRentals[indexFound].SetOwnerEmail(ownerEmail);
+                if (menuChoice == 6)
+                {
+                    //Edits rental amount
+                    Console.Clear();
+                    Console.WriteLine("Enter the edited amount.");
+                    double rentalAmount = double.Parse(Console.ReadLine());
+                    rentalAmount = call.CheckPrice(rentalAmount);
+                    myRentals[indexFound].SetAmount(rentalAmount);
+                }
+                if (menuChoice == 7)
+                {
+                    //Updates owner email
+                    Console.Clear();
+                    Console.WriteLine("Enter the owner email.");
+                    string ownerEmail = Console.ReadLine();
+                    ownerEmail = call.CheckEmail(ownerEmail);
+                    myRentals[indexFound].SetOwnerEmail(ownerEmail);
+                }
 
                 //Updates total rental amount
                 string checkOutDay = myRentals[indexFound].GetCheckOutDate();
@@ -421,7 +427,7 @@ namespace MIS221_Starter_Code
                 DateTime checkOut = DateTime.Parse(checkOutDay);
                 DateTime checkIn = DateTime.Parse(rentDate);
                 int daysDiff = ((TimeSpan)(checkOut - checkIn)).Days;
-                double totalAmount = (daysDiff) * listingPrice;
+                double totalAmount = (daysDiff) * myRentals[indexFound].GetAmount();
                 myRentals[indexFound].SetTotalAmount(totalAmount);
 
                 Console.Clear();
@@ -630,6 +636,8 @@ namespace MIS221_Starter_Code
             Console.WriteLine("Enter '3' to edit renter email.");
             Console.WriteLine("Enter '4' to edit check-in date.");
             Console.WriteLine("Enter '5' to edit check-out date.");
+            Console.WriteLine("Enter '6' to edit rental amount.");
+            Console.WriteLine("Enter '7' to edit owner email.");
 
             return int.Parse(Console.ReadLine());
         }

@@ -51,7 +51,7 @@ namespace MIS221_Starter_Code
             }
             else
             {
-                if (menuChoice < 1 || menuChoice > 5)
+                if (menuChoice < 1 || menuChoice > 7)
                 {
                     ErrorMessage();
                     int input1 = int.Parse(Console.ReadLine());

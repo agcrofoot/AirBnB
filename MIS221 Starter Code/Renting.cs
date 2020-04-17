@@ -146,7 +146,7 @@ namespace MIS221_Starter_Code
 
         public string ToFile()
         {
-            return listingID + "#" + renterName + "#" + renterEmail + "#" + rentalDate + "#" + rentalAmount + "#" + checkOutDate + "#" + ownerEmail + "#" + string.Format("{0:C}", totalAmount);
+            return listingID + "#" + renterName + "#" + renterEmail + "#" + rentalDate + "#" + rentalAmount + "#" + checkOutDate + "#" + ownerEmail + "#" + totalAmount;
         }
 
         public static void SortRentals(Renting[] myRentals)
