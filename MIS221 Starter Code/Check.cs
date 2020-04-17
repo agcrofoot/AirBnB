@@ -37,6 +37,22 @@ namespace MIS221_Starter_Code
             }
         }
 
+        //If endDate passes
+        public void DateStillValid(Listing[] myListing)
+        {
+            for (int i = 0; i < Listing.GetCount(); i++)
+            {
+                DateTime date = DateTime.Parse(myListing[i].GetDate());
+                DateTime today = DateTime.Today;
+                if (date < today)
+                {
+                    Array.Clear(myListing, i, 1);
+
+                    Listing.ShiftListing(myListing, i);
+                    Listing.DownCount();
+                }
+            }
+        }
 
         //
         public int RentingEditCheck(int menuChoice)

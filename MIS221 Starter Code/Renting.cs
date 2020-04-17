@@ -141,8 +141,8 @@ namespace MIS221_Starter_Code
 
         public string ToString()
         {
-            return "Listing ID: " + listingID + " Renter Name: " + renterName + " Renter Email: " + renterEmail + " Check-In Date: "
-                + rentalDate + " Cost per Night: " + string.Format("{0:C}", rentalAmount) + " Check-Out Date: " + checkOutDate + " Owner Email: " + ownerEmail + " Total Cost: " + string.Format("{0:C}", totalAmount);
+            return "Listing ID: " + listingID + "\t" + " Renter Name: " + renterName + "\t" + " Renter Email: " + renterEmail + "\t" + " Check-In Date: "
+                + rentalDate + "\t" + " Cost per Night: " + string.Format("{0:C}", rentalAmount) + "\t" + " Check-Out Date: " + checkOutDate + "\t" + " Owner Email: " + ownerEmail + "\t" + " Total Cost: " + string.Format("{0:C}", totalAmount);
         }
 
         public string ToFile()

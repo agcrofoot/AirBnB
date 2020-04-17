@@ -136,6 +136,7 @@ namespace MIS221_Starter_Code
 
             //Sorts them by listing ID
             Listing.SortListing(myListing);
+            call.DateStillValid(myListing);
             ListingFile.PrintListing(myListing);
             Console.WriteLine("Enter the ID of the listing to edit.");
 
@@ -232,6 +233,7 @@ namespace MIS221_Starter_Code
             Listing[] myListing = ListingFile.GetListings();
             Check call = new Check();
             Listing.SortListing(myListing);
+            call.DateStillValid(myListing);
             ListingFile.PrintListing(myListing);
             Console.WriteLine("Enter the ID of the listing to delete.");
             string searchValue = Console.ReadLine();
@@ -268,6 +270,7 @@ namespace MIS221_Starter_Code
                 Check call = new Check();
                 Listing[] myListing = ListingFile.GetListings();
                 Listing.SortListing(myListing);
+                call.DateStillValid(myListing);
                 ListingFile.PrintListing(myListing);
 
                 Renting myRentals = new Renting();
@@ -346,6 +349,8 @@ namespace MIS221_Starter_Code
                 Renting[] myRentals = RentingFiles.GetRentals();
                 Listing[] myListing = ListingFile.GetListings();
                 Check call = new Check();
+                call.DateStillValid(myListing);
+                ListingFile.SaveEditedListing(myListing, @"C:\Text\listings.txt");
                 Renting.SortRentals(myRentals);
                 RentingFiles.PrintRentals(myRentals);
                 Console.WriteLine("Enter the ID of the rental to edit.");
@@ -514,7 +519,6 @@ namespace MIS221_Starter_Code
                 while (indexFound != -1)
                 {
                     myRentals[indexFound].SetRenterEmail(searchValue);
-                    RentingFiles.SaveEditedRentals(myRentals, @"C:\Text\transactions.txt");
                     indexFound = Renting.BinaryEmailSearch(myRentals, "next");
                 }
                 Renting.SortRentals(myRentals);
