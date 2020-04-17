@@ -146,7 +146,7 @@ namespace MIS221_Starter_Code
         //Converts to string
         public string ToString()
         {
-            return "Listing ID: " + listingID + " Address: " + addressState + " " + addressCity + ", " + addressState + 
+            return "Listing ID: " + listingID + " Address: " + addressStreet + " " + addressCity + ", " + addressState + 
                 " End Date: " + endDate + " Cost: " + string.Format("{0:C}", listPrice) + 
                 " Owner Email: " + ownerEmail;
         }
